@@ -21,14 +21,20 @@ public class Mandelbrot {
     // number of coordinates per vertex in this array
     static final int COORDS_PER_VERTEX = 2;
     static float coords[] = {   // in counterclockwise order:
-        -1,  1,
-        -1, -1,
-         1, -1,
-
-        -1,  1,
-         1,  1,
-         1, -1
+            0.0f,  0.622008459f, // top
+            -0.5f, -0.311004243f, // bottom left
+            0.5f, -0.311004243f,  // bottom right
     };
+
+// {   // in counterclockwise order:
+//        -1,  1,
+//        -1, -1,
+//         1, -1,
+//
+//        -1,  1,
+//         1,  1,
+//         1, -1
+//    };
 
 
     public Mandelbrot() {
@@ -73,24 +79,40 @@ public class Mandelbrot {
     private final float DIST = 2.0f;
     private final float[] bounds = new float[]{-DIST, DIST, -DIST, DIST},
             viewportDimensions = new float[]{360, 598};
+    
+
+    private int mPositionHandle;
+    private int mColorHandle;
+
+    private final int vertexCount = coords.length / COORDS_PER_VERTEX;
+    private final int vertexStride = COORDS_PER_VERTEX * 4; // 4 bytes per vertex
+    float color[] = { 0.63671875f, 0.76953125f, 0.22265625f, 1.0f };
 
     public void draw() {
+        // Add program to OpenGL ES environment
         GLES20.glUseProgram(mProgram);
 
-        uViewportDimensions = GLES20.glGetUniformLocation(mProgram, "viewportDimensions");
-        uBounds = GLES20.glGetUniformLocation(mProgram, "bounds");
+        // get handle to vertex shader's vPosition member
+        mPositionHandle = GLES20.glGetAttribLocation(mProgram, "vPos");
 
-        int vPosAttrib = GLES20.glGetAttribLocation(mProgram, "vPos");
+        // Enable a handle to the triangle vertices
+        GLES20.glEnableVertexAttribArray(mPositionHandle);
 
-        GLES20.glEnableVertexAttribArray(vPosAttrib);
+        // Prepare the triangle coordinate data
+        GLES20.glVertexAttribPointer(mPositionHandle, COORDS_PER_VERTEX,
+                GLES20.GL_FLOAT, false,
+                vertexStride, vertexBuffer);
 
-        GLES20.glVertexAttribPointer(vPosAttrib, COORDS_PER_VERTEX, GLES20.GL_FLOAT, false, 8, 0);
+        // get handle to fragment shader's vColor member
+        mColorHandle = GLES20.glGetUniformLocation(mProgram, "vColor");
 
-        GLES20.glUniform4fv(uBounds, 1, bounds, 0);
-        GLES20.glUniform2fv(uViewportDimensions, 1, viewportDimensions, 0);
+        // Set color for drawing the triangle
+        GLES20.glUniform4fv(mColorHandle, 1, color, 0);
 
-        GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, 6);
+        // Draw the triangle
+        GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, vertexCount);
 
-        GLES20.glDisableVertexAttribArray(vPosAttrib);
+        // Disable vertex array
+        GLES20.glDisableVertexAttribArray(mPositionHandle);
     }
 }
