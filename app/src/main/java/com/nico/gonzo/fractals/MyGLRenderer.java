@@ -1,12 +1,25 @@
 package com.nico.gonzo.fractals;
+import android.content.Context;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 public class MyGLRenderer implements GLSurfaceView.Renderer {
 
     private Triangle mTriangle;
+
+    // TODO FIX THIS MEMORY LEAK
+    static private Context context;
+
+    public MyGLRenderer(Context context) {
+        this.context = context;
+    }
 
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         // Set the background frame color
@@ -34,6 +47,32 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         GLES20.glShaderSource(shader, shaderCode);
         GLES20.glCompileShader(shader);
 
+        return shader;
+    }
+
+    public static String readShader(String filename) {
+        BufferedReader reader = null;
+        String shader = "";
+        try {
+            reader = new BufferedReader(new InputStreamReader(context.getAssets().open(filename)));
+
+            // do reading, usually loop until end of file reading
+            String mLine;
+            while ((mLine = reader.readLine()) != null) {
+                //process line
+                shader += mLine;
+            }
+        } catch (IOException e) {
+            //log the exception
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    //log the exception
+                }
+            }
+        }
         return shader;
     }
 }

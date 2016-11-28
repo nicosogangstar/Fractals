@@ -12,18 +12,9 @@ public class Triangle {
 
     private final int mProgram;
 
-    private final String vertexShaderCode =
-            "attribute vec4 vPosition;" +
-                    "void main() {" +
-                    "  gl_Position = vPosition;" +
-                    "}";
+    private final String vertexShaderCode = MyGLRenderer.readShader("mandelbrot.vs.glsl");
 
-    private final String fragmentShaderCode =
-            "precision mediump float;" +
-                    "uniform vec4 vColor;" +
-                    "void main() {" +
-                    "  gl_FragColor = vColor;" +
-                    "}";
+    private final String fragmentShaderCode = MyGLRenderer.readShader("mandelbrot.fs.glsl");
 
     // number of coordinates per vertex in this array
     static final int COORDS_PER_VERTEX = 3;
