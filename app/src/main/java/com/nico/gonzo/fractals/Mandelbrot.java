@@ -6,16 +6,12 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
-public class Mandelbrot {
+class Mandelbrot {
 
     private FloatBuffer vertexBuffer;
-
     private final int mProgram;
-
-    private final String vertexShaderCode = MyGLRenderer.readShader("mandelbrot.vs.glsl");
-    private final String fragmentShaderCode = MyGLRenderer.readShader("mandelbrot.fs.glsl");
-
     private float[] viewport;
+    private float[] bounds = {-2f, 2f, -2f, 2f};;
 
     // number of coordinates per vertex in this array
     static float[] coords = {
@@ -28,10 +24,10 @@ public class Mandelbrot {
          1, -1
     };
 
-    public Mandelbrot() {
+    Mandelbrot() {
         // Load the shaders
-        int vertexShader = MyGLRenderer.loadShader(GLES20.GL_VERTEX_SHADER, vertexShaderCode);
-        int fragmentShader = MyGLRenderer.loadShader(GLES20.GL_FRAGMENT_SHADER, fragmentShaderCode);
+        int vertexShader = MyGLRenderer.loadShader(GLES20.GL_VERTEX_SHADER, MyGLRenderer.readShader("mandelbrot.vs.glsl"));
+        int fragmentShader = MyGLRenderer.loadShader(GLES20.GL_FRAGMENT_SHADER, MyGLRenderer.readShader("mandelbrot.fs.glsl"));
 
         // Create the program
         mProgram = GLES20.glCreateProgram();
@@ -49,10 +45,6 @@ public class Mandelbrot {
         vertexBuffer.position(0);
     }
 
-    // Finals
-    private final float DIST = 2.0f;
-    private final float[] bounds = {-DIST, DIST, -DIST, DIST};
-
     // Attrib handles
     private int mPositionHandle;
 
@@ -61,7 +53,7 @@ public class Mandelbrot {
 
     private final int vertexStride = 2 * 4;
 
-    public void draw() {
+    void draw() {
         // Clear the screen
         GLES20.glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 
@@ -85,7 +77,11 @@ public class Mandelbrot {
         GLES20.glDisableVertexAttribArray(mPositionHandle);
     }
 
-    public void setViewport(float[] input) {
+    void setViewport(float[] input) {
         viewport = input;
+    }
+
+    public void setBounds(float[] input) {
+        bounds = input;
     }
 }
