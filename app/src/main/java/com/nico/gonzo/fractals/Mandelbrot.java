@@ -1,16 +1,14 @@
 package com.nico.gonzo.fractals;
 
 import android.opengl.GLES20;
-import android.view.Display;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
-import java.util.HashMap;
 
 public class Mandelbrot {
 
-    private FloatBuffer vertexBuffer, colorBuffer;
+    private FloatBuffer vertexBuffer;
 
     private final int mProgram;
 
@@ -18,7 +16,6 @@ public class Mandelbrot {
     private final String fragmentShaderCode = MyGLRenderer.readShader("mandelbrot.fs.glsl");
 
     // number of coordinates per vertex in this array
-    static final int COORDS_PER_VERTEX = 2;
     static float[] coords = {
         -1,  1,
         -1, -1,
@@ -27,16 +24,6 @@ public class Mandelbrot {
         -1,  1,
          1,  1,
          1, -1
-    };
-
-    static float[] colors = {
-        1.0f, 0.0f, 0.0f, 1.0f,
-        0.0f, 1.0f, 0.0f, 1.0f,
-        0.0f, 0.0f, 1.0f, 1.0f,
-
-        1.0f, 0.0f, 0.0f, 1.0f,
-        0.0f, 1.0f, 0.0f, 1.0f,
-        0.0f, 0.0f, 1.0f, 1.0f
     };
 
     public Mandelbrot() {
@@ -58,13 +45,6 @@ public class Mandelbrot {
         vertexBuffer = vBuffer.asFloatBuffer();
         vertexBuffer.put(coords);
         vertexBuffer.position(0);
-
-        // TODO remove
-        ByteBuffer cBuffer = ByteBuffer.allocateDirect(colors.length * 4);
-        cBuffer.order(ByteOrder.nativeOrder());
-        colorBuffer = cBuffer.asFloatBuffer();
-        colorBuffer.put(colors);
-        colorBuffer.position(0);
     }
 
     // Finals
@@ -72,12 +52,12 @@ public class Mandelbrot {
     private final float[] bounds = new float[]{-DIST, DIST, -DIST, DIST};
 
     // Attrib handles
-    private int mPositionHandle, mColorHandle;
+    private int mPositionHandle;
 
     // Uniform handles
     private int mBoundsHandle;
 
-    private final int vertexStride = 2 * 4, colorStride = 4 * 4;
+    private final int vertexStride = 2 * 4;
 
     public void draw() {
         // Clear the screen
@@ -91,11 +71,6 @@ public class Mandelbrot {
         GLES20.glEnableVertexAttribArray(mPositionHandle);
         GLES20.glVertexAttribPointer(mPositionHandle, 2, GLES20.GL_FLOAT, false, vertexStride, vertexBuffer);
 
-        // Locate and activate the color attrib
-        mColorHandle = GLES20.glGetAttribLocation(mProgram, "vColor");
-        GLES20.glEnableVertexAttribArray(mColorHandle);
-        GLES20.glVertexAttribPointer(mColorHandle, 4, GLES20.GL_FLOAT, false, colorStride, colorBuffer);
-
         mBoundsHandle = GLES20.glGetUniformLocation(mProgram, "bounds");
         GLES20.glUniform4fv(mBoundsHandle, 1, bounds, 0);
 
@@ -103,6 +78,5 @@ public class Mandelbrot {
 
         // Disable attribs
         GLES20.glDisableVertexAttribArray(mPositionHandle);
-        GLES20.glDisableVertexAttribArray(mColorHandle);
     }
 }
