@@ -2,6 +2,7 @@ package com.nico.gonzo.fractals;
 import android.content.res.AssetManager;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -32,7 +33,9 @@ class MyGLRenderer implements GLSurfaceView.Renderer {
     }
 
     public void onSurfaceChanged(GL10 unused, int width, int height) {
+        Log.i("MyGLRenderer", width + ":" + height);
         GLES20.glViewport(0, 0, width, height);
+        mMandelbrot.setViewport(new float[]{width, height});
     }
 
     public static int loadShader(int type, String shaderCode){

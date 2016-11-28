@@ -15,6 +15,8 @@ public class Mandelbrot {
     private final String vertexShaderCode = MyGLRenderer.readShader("mandelbrot.vs.glsl");
     private final String fragmentShaderCode = MyGLRenderer.readShader("mandelbrot.fs.glsl");
 
+    private float[] viewport;
+
     // number of coordinates per vertex in this array
     static float[] coords = {
         -1,  1,
@@ -49,13 +51,13 @@ public class Mandelbrot {
 
     // Finals
     private final float DIST = 2.0f;
-    private final float[] bounds = new float[]{-DIST, DIST, -DIST, DIST};
+    private final float[] bounds = {-DIST, DIST, -DIST, DIST};
 
     // Attrib handles
     private int mPositionHandle;
 
     // Uniform handles
-    private int mBoundsHandle;
+    private int mViewportHandle, mBoundsHandle;
 
     private final int vertexStride = 2 * 4;
 
@@ -71,6 +73,9 @@ public class Mandelbrot {
         GLES20.glEnableVertexAttribArray(mPositionHandle);
         GLES20.glVertexAttribPointer(mPositionHandle, 2, GLES20.GL_FLOAT, false, vertexStride, vertexBuffer);
 
+        mViewportHandle = GLES20.glGetUniformLocation(mProgram, "viewportDimensions");
+        GLES20.glUniform2fv(mViewportHandle, 1, viewport, 0);
+
         mBoundsHandle = GLES20.glGetUniformLocation(mProgram, "bounds");
         GLES20.glUniform4fv(mBoundsHandle, 1, bounds, 0);
 
@@ -78,5 +83,9 @@ public class Mandelbrot {
 
         // Disable attribs
         GLES20.glDisableVertexAttribArray(mPositionHandle);
+    }
+
+    public void setViewport(float[] input) {
+        viewport = input;
     }
 }

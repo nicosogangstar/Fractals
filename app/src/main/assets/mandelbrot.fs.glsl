@@ -1,4 +1,5 @@
 precision mediump float;
+uniform vec2 viewportDimensions;
 uniform vec4 bounds;
 
 vec3 hsv2rgb(vec3 c) {
@@ -13,14 +14,14 @@ float interpolate(float v0, float v1, float t) {
 
 void main() {
     vec2 c = vec2(
-        gl_FragCoord.x * (bounds.w - bounds.z) + bounds.z,
-        gl_FragCoord.y * (bounds.y - bounds.x) + bounds.x
+        gl_FragCoord.x * (bounds.w - bounds.z) / viewportDimensions.x + bounds.z,
+        gl_FragCoord.y * (bounds.y - bounds.x) / viewportDimensions.y + bounds.x
     );
 
     vec2 z = c;
     float iterations = 0.0;
-    float maxIterations = 500.0;
-    const int imaxIterations = 500;
+    float maxIterations = 100.0;
+    const int imaxIterations = 100;
 
     for(int i = 0; i < imaxIterations; i++) {
         float t = 2.0 * z.x * z.y + c.y;
