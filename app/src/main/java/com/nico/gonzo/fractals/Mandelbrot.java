@@ -19,10 +19,14 @@ public class Mandelbrot {
 
     // number of coordinates per vertex in this array
     static final int COORDS_PER_VERTEX = 2;
-    static float[] coords = {   // in counterclockwise order:
-            0.0f,  0.622008459f, // top
-            -0.5f, -0.311004243f, // bottom left
-            0.5f, -0.311004243f,  // bottom right
+    static float[] coords = {
+            -1.0f,  1.0f,
+            -1.0f, -1.0f,
+             1.0f, -1.0f,
+    };
+
+    static int[] indices = {
+
     };
 
     static float[] colors = {

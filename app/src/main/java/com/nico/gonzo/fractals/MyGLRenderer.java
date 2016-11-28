@@ -1,5 +1,5 @@
 package com.nico.gonzo.fractals;
-import android.content.Context;
+import android.content.res.AssetManager;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 
@@ -10,19 +10,19 @@ import java.io.InputStreamReader;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-public class MyGLRenderer implements GLSurfaceView.Renderer {
+class MyGLRenderer implements GLSurfaceView.Renderer {
 
     private Mandelbrot mMandelbrot;
 
-    // TODO FIX THIS MEMORY LEAK
-    static private Context context;
+    // TODO fix this misuse of static
+    static private AssetManager assetManager;
 
-    public MyGLRenderer(Context context) {
-        this.context = context;
+    public MyGLRenderer(AssetManager assetManager) {
+        this.assetManager = assetManager;
     }
 
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-        // Set the background frame color
+        // Set the background color
         GLES20.glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 
         mMandelbrot = new Mandelbrot();
@@ -54,7 +54,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         BufferedReader reader = null;
         String shader = "";
         try {
-            reader = new BufferedReader(new InputStreamReader(context.getAssets().open(filename)));
+            reader = new BufferedReader(new InputStreamReader(assetManager.open(filename)));
 
             // do reading, usually loop until end of file reading
             String mLine;
