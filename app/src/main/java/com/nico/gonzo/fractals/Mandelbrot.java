@@ -10,67 +10,54 @@ import java.util.HashMap;
 
 public class Mandelbrot {
 
-    private FloatBuffer vertexBuffer;
+    private FloatBuffer vertexBuffer, colorBuffer;
 
     private final int mProgram;
 
     private final String vertexShaderCode = MyGLRenderer.readShader("mandelbrot.vs.glsl");
-
     private final String fragmentShaderCode = MyGLRenderer.readShader("mandelbrot.fs.glsl");
 
     // number of coordinates per vertex in this array
     static final int COORDS_PER_VERTEX = 2;
-    static float coords[] = {   // in counterclockwise order:
+    static float[] coords = {   // in counterclockwise order:
             0.0f,  0.622008459f, // top
             -0.5f, -0.311004243f, // bottom left
             0.5f, -0.311004243f,  // bottom right
     };
 
-// {   // in counterclockwise order:
-//        -1,  1,
-//        -1, -1,
-//         1, -1,
-//
-//        -1,  1,
-//         1,  1,
-//         1, -1
-//    };
-
+    static float[] colors = {
+        1.0f, 0.0f, 0.0f, 1.0f,
+        0.0f, 1.0f, 0.0f, 1.0f,
+        0.0f, 0.0f, 1.0f, 1.0f
+    };
 
     public Mandelbrot() {
-        int vertexShader = MyGLRenderer.loadShader(GLES20.GL_VERTEX_SHADER,
-                vertexShaderCode);
-        int fragmentShader = MyGLRenderer.loadShader(GLES20.GL_FRAGMENT_SHADER,
-                fragmentShaderCode);
+        // Load the shaders
+        int vertexShader = MyGLRenderer.loadShader(GLES20.GL_VERTEX_SHADER, vertexShaderCode);
+        int fragmentShader = MyGLRenderer.loadShader(GLES20.GL_FRAGMENT_SHADER, fragmentShaderCode);
 
-        // create empty OpenGL ES Program
+        // Create the program
         mProgram = GLES20.glCreateProgram();
 
-        // add the vertex shader to program
+        // Attach the shaders to the program and link the program
         GLES20.glAttachShader(mProgram, vertexShader);
-
-        // add the fragment shader to program
         GLES20.glAttachShader(mProgram, fragmentShader);
-
-        // creates OpenGL ES program executables
         GLES20.glLinkProgram(mProgram);
 
-
-        // initialize vertex byte buffer for shape coordinates
-        ByteBuffer bb = ByteBuffer.allocateDirect(
-                // (number of coordinate values * 4 bytes per float)
-                coords.length * 4);
-        // use the device hardware's native byte order
-        bb.order(ByteOrder.nativeOrder());
-
-        // create a floating point buffer from the ByteBuffer
-        vertexBuffer = bb.asFloatBuffer();
-        // add the coordinates to the FloatBuffer
+        // Allocate memory for the coordinates
+        ByteBuffer vBuffer = ByteBuffer.allocateDirect(coords.length * 4);
+        vBuffer.order(ByteOrder.nativeOrder());
+        vertexBuffer = vBuffer.asFloatBuffer();
         vertexBuffer.put(coords);
-        // set the buffer to read the first coordinate
         vertexBuffer.position(0);
-    }
 
+        // Allocate memory for the colors
+        ByteBuffer cBuffer = ByteBuffer.allocateDirect(colors.length * 4);
+        cBuffer.order(ByteOrder.nativeOrder());
+        colorBuffer = cBuffer.asFloatBuffer();
+        colorBuffer.put(colors);
+        colorBuffer.position(0);
+    }
 
     // Uniforms
     private int uViewportDimensions, uBounds;
@@ -79,40 +66,30 @@ public class Mandelbrot {
     private final float DIST = 2.0f;
     private final float[] bounds = new float[]{-DIST, DIST, -DIST, DIST},
             viewportDimensions = new float[]{360, 598};
-    
 
     private int mPositionHandle;
     private int mColorHandle;
 
-    private final int vertexCount = coords.length / COORDS_PER_VERTEX;
-    private final int vertexStride = COORDS_PER_VERTEX * 4; // 4 bytes per vertex
+    private final int vertexStride = 2 * 4,
+                    colorStride = 4 * 4;
     float color[] = { 0.63671875f, 0.76953125f, 0.22265625f, 1.0f };
 
     public void draw() {
-        // Add program to OpenGL ES environment
+        // Use the program
         GLES20.glUseProgram(mProgram);
 
-        // get handle to vertex shader's vPosition member
+        // Locate and activate the position attrib
         mPositionHandle = GLES20.glGetAttribLocation(mProgram, "vPos");
-
-        // Enable a handle to the triangle vertices
         GLES20.glEnableVertexAttribArray(mPositionHandle);
+        GLES20.glVertexAttribPointer(mPositionHandle, 2, GLES20.GL_FLOAT, false, vertexStride, vertexBuffer);
 
-        // Prepare the triangle coordinate data
-        GLES20.glVertexAttribPointer(mPositionHandle, COORDS_PER_VERTEX,
-                GLES20.GL_FLOAT, false,
-                vertexStride, vertexBuffer);
+        // Locate and activate the color attrib
+        mColorHandle = GLES20.glGetAttribLocation(mProgram, "vColor");
+        GLES20.glEnableVertexAttribArray(mColorHandle);
+        GLES20.glVertexAttribPointer(mColorHandle, 4, GLES20.GL_FLOAT, false, colorStride, colorBuffer);
 
-        // get handle to fragment shader's vColor member
-        mColorHandle = GLES20.glGetUniformLocation(mProgram, "vColor");
-
-        // Set color for drawing the triangle
-        GLES20.glUniform4fv(mColorHandle, 1, color, 0);
-
-        // Draw the triangle
-        GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, vertexCount);
-
-        // Disable vertex array
+        //GLES20.glUniform4fv(mColorHandle, 1, color, 0);
+        GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, coords.length / 2);
         GLES20.glDisableVertexAttribArray(mPositionHandle);
     }
 }
