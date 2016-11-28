@@ -59,7 +59,7 @@ public class Mandelbrot {
         vertexBuffer.put(coords);
         vertexBuffer.position(0);
 
-        // Allocate memory for the colors
+        // TODO remove
         ByteBuffer cBuffer = ByteBuffer.allocateDirect(colors.length * 4);
         cBuffer.order(ByteOrder.nativeOrder());
         colorBuffer = cBuffer.asFloatBuffer();
@@ -67,22 +67,22 @@ public class Mandelbrot {
         colorBuffer.position(0);
     }
 
-    // Uniforms
-    private int uViewportDimensions, uBounds;
-
     // Finals
     private final float DIST = 2.0f;
-    private final float[] bounds = new float[]{-DIST, DIST, -DIST, DIST},
-            viewportDimensions = new float[]{360, 598};
+    private final float[] bounds = new float[]{-DIST, DIST, -DIST, DIST};
 
-    private int mPositionHandle;
-    private int mColorHandle;
+    // Attrib handles
+    private int mPositionHandle, mColorHandle;
 
-    private final int vertexStride = 2 * 4,
-                    colorStride = 4 * 4;
-    float color[] = { 0.63671875f, 0.76953125f, 0.22265625f, 1.0f };
+    // Uniform handles
+    private int mBoundsHandle;
+
+    private final int vertexStride = 2 * 4, colorStride = 4 * 4;
 
     public void draw() {
+        // Clear the screen
+        GLES20.glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
+
         // Use the program
         GLES20.glUseProgram(mProgram);
 
@@ -96,8 +96,13 @@ public class Mandelbrot {
         GLES20.glEnableVertexAttribArray(mColorHandle);
         GLES20.glVertexAttribPointer(mColorHandle, 4, GLES20.GL_FLOAT, false, colorStride, colorBuffer);
 
-        //GLES20.glUniform4fv(mColorHandle, 1, color, 0);
+        mBoundsHandle = GLES20.glGetUniformLocation(mProgram, "bounds");
+        GLES20.glUniform4fv(mBoundsHandle, 1, bounds, 0);
+
         GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, coords.length / 2);
+
+        // Disable attribs
         GLES20.glDisableVertexAttribArray(mPositionHandle);
+        GLES20.glDisableVertexAttribArray(mColorHandle);
     }
 }

@@ -22,9 +22,6 @@ class MyGLRenderer implements GLSurfaceView.Renderer {
     }
 
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-        // Set the background color
-        GLES20.glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
-
         mMandelbrot = new Mandelbrot();
     }
 
