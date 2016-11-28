@@ -20,11 +20,13 @@ class MyGLSurfaceView extends GLSurfaceView {
         setEGLContextClientVersion(2);
         mRenderer = new MyGLRenderer(context.getAssets());
         setRenderer(mRenderer);
+        setRenderMode(RENDERMODE_CONTINUOUSLY);
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent e) {
         mGestureDetector.onTouchEvent(e);
+        Log.i("EVENT", e.toString());
         return super.onTouchEvent(e);
     }
 
@@ -35,21 +37,21 @@ class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
     @Override
     public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY)
     {
-        Log.e(TAG, "OnScroll: deltaX=" + String.valueOf(e2.getX() - e1.getX()) + ", deltaY=" + String.valueOf(e2.getY() - e1.getY()));
+        Log.i(TAG, "onScroll: deltaX=" + String.valueOf(e2.getX() - e1.getX()) + ", deltaY=" + String.valueOf(e2.getY() - e1.getY()));
         return true;
     }
 
     @Override
     public boolean onSingleTapUp(MotionEvent e)
     {
-        Log.e(TAG, "onSingleTapUp: X=" + String.valueOf(e.getX()) + ", Y=" + String.valueOf(e.getY()));
+        Log.i(TAG, "onSingleTapUp: X=" + String.valueOf(e.getX()) + ", Y=" + String.valueOf(e.getY()));
         return true;
     }
 
     @Override
     public void onLongPress(MotionEvent e)
     {
-        Log.e(TAG, "onLongPress: X=" + String.valueOf(e.getX()) + ", Y=" + String.valueOf(e.getY()));
+        Log.i(TAG, "onLongPress: X=" + String.valueOf(e.getX()) + ", Y=" + String.valueOf(e.getY()));
     }
 
     @Override
