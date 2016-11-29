@@ -11,7 +11,7 @@ class Mandelbrot {
     private FloatBuffer vertexBuffer;
     private final int mProgram;
     private float[] viewport;
-    public float[] bounds = {-2f, 2f, -2f, 2f};;
+    float[] bounds = {-2f, 2f, -2f, 2f};;
 
     // number of coordinates per vertex in this array
     static float[] coords = {
@@ -79,9 +79,5 @@ class Mandelbrot {
 
     void setViewport(float[] input) {
         viewport = input;
-    }
-
-    public void setBounds(float[] input) {
-        bounds = input;
     }
 }
