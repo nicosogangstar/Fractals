@@ -3,21 +3,21 @@ package com.nico.gonzo.fractals;
 import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.support.v4.view.GestureDetectorCompat;
-import android.util.Log;
 import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
 
 class MyGLSurfaceView extends GLSurfaceView {
 
-    private final MyGLRenderer mRenderer;
+    private MyGLRenderer mRenderer;
     private GestureDetectorCompat mGestureDetector = null;
+    private ScaleGestureDetector mScaleDetector = null;
 
     public MyGLSurfaceView(Context context){
         super(context);
-
-        mGestureDetector = new GestureDetectorCompat(context, new MyGLRenderer.MyGestureListener());
-
         setEGLContextClientVersion(2);
-        mRenderer = new MyGLRenderer(context.getAssets());
+        mRenderer = new MyGLRenderer(context);
+        mGestureDetector = new GestureDetectorCompat(context, new MyGestureListener());
+        mScaleDetector = new ScaleGestureDetector(context, new MyScaleListener());
         setRenderer(mRenderer);
         setRenderMode(RENDERMODE_CONTINUOUSLY);
     }
@@ -25,9 +25,8 @@ class MyGLSurfaceView extends GLSurfaceView {
     @Override
     public boolean onTouchEvent(MotionEvent e) {
         mGestureDetector.onTouchEvent(e);
-        mRenderer.zoom(0.95f);
-        Log.i("EVENT", e.toString());
-        return super.onTouchEvent(e);
+        mScaleDetector.onTouchEvent(e);
+        return true;
     }
 
 }

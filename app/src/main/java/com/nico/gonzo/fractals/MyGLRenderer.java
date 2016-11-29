@@ -1,10 +1,9 @@
 package com.nico.gonzo.fractals;
+import android.content.Context;
 import android.content.res.AssetManager;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.util.Log;
-import android.view.GestureDetector;
-import android.view.MotionEvent;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -19,14 +18,12 @@ import static android.R.attr.height;
 
 class MyGLRenderer implements GLSurfaceView.Renderer {
 
-    private Mandelbrot mMandelbrot;
-    private int prevWidth, prevHeight;
+    private static Mandelbrot mMandelbrot;
+    private static AssetManager assetManager;
+    private static int dWidth, dHeight;
 
-    // TODO fix this misuse of static
-    static private AssetManager assetManager;
-
-    MyGLRenderer(AssetManager assets) {
-        assetManager = assets;
+    MyGLRenderer(Context context) {
+        assetManager = context.getAssets();
     }
 
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
@@ -39,13 +36,15 @@ class MyGLRenderer implements GLSurfaceView.Renderer {
     }
 
     public void onSurfaceChanged(GL10 unused, int _width, int _height) {
+        dWidth = _width;
+        dHeight = _height;
         Log.i("MyGLRenderer", _width + ":" + _height);
         onResized();
         GLES20.glViewport(0, 0, _width, _height);
         mMandelbrot.setViewport(new float[]{_width, _height});
     }
 
-    void onResized() {
+    private static void onResized() {
         float rangeR = mMandelbrot.bounds[3] - mMandelbrot.bounds[2];
         mMandelbrot.bounds[3] = (float)((mMandelbrot.bounds[1] - mMandelbrot.bounds[0]) * (width / height) / 1.4 + mMandelbrot.bounds[2]);
         float newRangeR = mMandelbrot.bounds[3] - mMandelbrot.bounds[2];
@@ -53,15 +52,27 @@ class MyGLRenderer implements GLSurfaceView.Renderer {
         mMandelbrot.bounds[3] = (float)((mMandelbrot.bounds[1] - mMandelbrot.bounds[0]) * (width / height) / 1.4 + mMandelbrot.bounds[2]);
     }
 
-    void zoom(float rangeModifier) {
+    static void zoom(float rangeModifier) {
         float rangeI = mMandelbrot.bounds[1] - mMandelbrot.bounds[0];
         float newRangeI;
-        newRangeI = rangeI * rangeModifier;
+        newRangeI = rangeI / rangeModifier;
         float delta = newRangeI - rangeI;
         mMandelbrot.bounds[0] -= delta / 2;
         mMandelbrot.bounds[1] = mMandelbrot.bounds[0] + newRangeI;
-        Log.i("MEME", width+":"+height);
         onResized();
+    }
+
+    static void pan(float distI, float distR) {
+        float rangeI = mMandelbrot.bounds[1] - mMandelbrot.bounds[0];
+        float rangeR = mMandelbrot.bounds[3] - mMandelbrot.bounds[2];
+
+        float deltaI = (distR / dWidth) * rangeI;
+        float deltaR = (distI / dHeight) * rangeR;
+
+        mMandelbrot.bounds[0] -= deltaI;
+        mMandelbrot.bounds[1] -= deltaI;
+        mMandelbrot.bounds[2] += deltaR;
+        mMandelbrot.bounds[3] += deltaR;
     }
 
     static int loadShader(int type, String shaderCode){
@@ -100,33 +111,5 @@ class MyGLRenderer implements GLSurfaceView.Renderer {
             }
         }
         return shader;
-    }
-
-    static class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
-        private final String TAG = "MyGestureListener";
-        @Override
-        public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY)
-        {
-            Log.i(TAG, "onScroll: deltaX=" + String.valueOf(e2.getX() - e1.getX()) + ", deltaY=" + String.valueOf(e2.getY() - e1.getY()));
-            return true;
-        }
-
-        @Override
-        public boolean onSingleTapUp(MotionEvent e)
-        {
-            Log.i(TAG, "onSingleTapUp: X=" + String.valueOf(e.getX()) + ", Y=" + String.valueOf(e.getY()));
-            return true;
-        }
-
-        @Override
-        public void onLongPress(MotionEvent e)
-        {
-            Log.i(TAG, "onLongPress: X=" + String.valueOf(e.getX()) + ", Y=" + String.valueOf(e.getY()));
-        }
-
-        @Override
-        public boolean onDown(MotionEvent e) {
-            return true;
-        }
     }
 }
