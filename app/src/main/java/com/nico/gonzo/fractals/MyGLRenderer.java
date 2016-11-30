@@ -18,7 +18,7 @@ import static android.R.attr.height;
 
 class MyGLRenderer implements GLSurfaceView.Renderer {
 
-    private static Mandelbrot mMandelbrot;
+    private static Fractal mFractal;
     private static AssetManager assetManager;
     private static int dWidth, dHeight;
 
@@ -27,12 +27,12 @@ class MyGLRenderer implements GLSurfaceView.Renderer {
     }
 
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-        mMandelbrot = new Mandelbrot();
+        mFractal = new Fractal("mandelbrot");
     }
 
     public void onDrawFrame(GL10 unused) {
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
-        mMandelbrot.draw();
+        mFractal.draw();
     }
 
     public void onSurfaceChanged(GL10 unused, int _width, int _height) {
@@ -41,38 +41,38 @@ class MyGLRenderer implements GLSurfaceView.Renderer {
         Log.i("MyGLRenderer", _width + ":" + _height);
         onResized();
         GLES20.glViewport(0, 0, _width, _height);
-        mMandelbrot.setViewport(new float[]{_width, _height});
+        mFractal.setViewport(new float[]{_width, _height});
     }
 
     private static void onResized() {
-        float rangeR = mMandelbrot.bounds[3] - mMandelbrot.bounds[2];
-        mMandelbrot.bounds[3] = (float)((mMandelbrot.bounds[1] - mMandelbrot.bounds[0]) * (width / height) / 1.4 + mMandelbrot.bounds[2]);
-        float newRangeR = mMandelbrot.bounds[3] - mMandelbrot.bounds[2];
-        mMandelbrot.bounds[2] -= (newRangeR - rangeR) / 2;
-        mMandelbrot.bounds[3] = (float)((mMandelbrot.bounds[1] - mMandelbrot.bounds[0]) * (width / height) / 1.4 + mMandelbrot.bounds[2]);
+        float rangeR = mFractal.bounds[3] - mFractal.bounds[2];
+        mFractal.bounds[3] = (float)((mFractal.bounds[1] - mFractal.bounds[0]) * (width / height) / 1.4 + mFractal.bounds[2]);
+        float newRangeR = mFractal.bounds[3] - mFractal.bounds[2];
+        mFractal.bounds[2] -= (newRangeR - rangeR) / 2;
+        mFractal.bounds[3] = (float)((mFractal.bounds[1] - mFractal.bounds[0]) * (width / height) / 1.4 + mFractal.bounds[2]);
     }
 
     static void zoom(float rangeModifier) {
-        float rangeI = mMandelbrot.bounds[1] - mMandelbrot.bounds[0];
+        float rangeI = mFractal.bounds[1] - mFractal.bounds[0];
         float newRangeI;
         newRangeI = rangeI / rangeModifier;
         float delta = newRangeI - rangeI;
-        mMandelbrot.bounds[0] -= delta / 2;
-        mMandelbrot.bounds[1] = mMandelbrot.bounds[0] + newRangeI;
+        mFractal.bounds[0] -= delta / 2;
+        mFractal.bounds[1] = mFractal.bounds[0] + newRangeI;
         onResized();
     }
 
     static void pan(float distI, float distR) {
-        float rangeI = mMandelbrot.bounds[1] - mMandelbrot.bounds[0];
-        float rangeR = mMandelbrot.bounds[3] - mMandelbrot.bounds[2];
+        float rangeI = mFractal.bounds[1] - mFractal.bounds[0];
+        float rangeR = mFractal.bounds[3] - mFractal.bounds[2];
 
         float deltaI = (distR / dHeight) * rangeI;
         float deltaR = (distI / dWidth) * rangeR;
 
-        mMandelbrot.bounds[0] -= deltaI;
-        mMandelbrot.bounds[1] -= deltaI;
-        mMandelbrot.bounds[2] += deltaR;
-        mMandelbrot.bounds[3] += deltaR;
+        mFractal.bounds[0] -= deltaI;
+        mFractal.bounds[1] -= deltaI;
+        mFractal.bounds[2] += deltaR;
+        mFractal.bounds[3] += deltaR;
     }
 
     static int loadShader(int type, String shaderCode){

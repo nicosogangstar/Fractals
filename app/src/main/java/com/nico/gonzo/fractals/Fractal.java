@@ -6,7 +6,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
-class Mandelbrot {
+class Fractal {
 
     private FloatBuffer vertexBuffer;
     private final int mProgram;
@@ -24,10 +24,10 @@ class Mandelbrot {
          1, -1
     };
 
-    Mandelbrot() {
+    Fractal(String type) {
         // Load the shaders
-        int vertexShader = MyGLRenderer.loadShader(GLES20.GL_VERTEX_SHADER, MyGLRenderer.readShader("mandelbrot.vs.glsl"));
-        int fragmentShader = MyGLRenderer.loadShader(GLES20.GL_FRAGMENT_SHADER, MyGLRenderer.readShader("mandelbrot.fs.glsl"));
+        int vertexShader = MyGLRenderer.loadShader(GLES20.GL_VERTEX_SHADER, MyGLRenderer.readShader("fractal.vs.glsl"));
+        int fragmentShader = MyGLRenderer.loadShader(GLES20.GL_FRAGMENT_SHADER, MyGLRenderer.readShader(type + ".fs.glsl"));
 
         // Create the program
         mProgram = GLES20.glCreateProgram();
