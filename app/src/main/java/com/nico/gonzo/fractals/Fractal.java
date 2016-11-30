@@ -13,6 +13,7 @@ class Fractal {
     private float[] viewport;
     float[] bounds = {-2f, 2f, -2f, 2f};;
     float d = 2.0f;
+    float iterations = 100.0f;
 
     // number of coordinates per vertex in this array
     static float[] coords = {
@@ -25,10 +26,11 @@ class Fractal {
          1, -1
     };
 
+    // TODO make type work
     Fractal(String type) {
         // Load the shaders
         int vertexShader = MyGLRenderer.loadShader(GLES20.GL_VERTEX_SHADER, MyGLRenderer.readShader("fractal.vs.glsl"));
-        int fragmentShader = MyGLRenderer.loadShader(GLES20.GL_FRAGMENT_SHADER, MyGLRenderer.readShader(type + ".fs.glsl"));
+        int fragmentShader = MyGLRenderer.loadShader(GLES20.GL_FRAGMENT_SHADER, MyGLRenderer.readShader("fractal.fs.glsl"));
 
         // Create the program
         mProgram = GLES20.glCreateProgram();
@@ -50,7 +52,7 @@ class Fractal {
     private int mPositionHandle;
 
     // Uniform handles
-    private int mViewportHandle, mBoundsHandle, mNHandle;
+    private int mViewportHandle, mBoundsHandle, mNHandle, mMaxIterationsHandle;
 
     private final int vertexStride = 2 * 4;
 
@@ -74,6 +76,9 @@ class Fractal {
 
         mNHandle = GLES20.glGetUniformLocation(mProgram, "n");
         GLES20.glUniform1f(mNHandle, d);
+
+        mMaxIterationsHandle = GLES20.glGetUniformLocation(mProgram, "maxIterations");
+        GLES20.glUniform1f(mMaxIterationsHandle, iterations);
 
         GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, coords.length / 2);
 

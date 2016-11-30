@@ -97,6 +97,8 @@ class MyGLRenderer implements GLSurfaceView.Renderer {
             String mLine;
             while ((mLine = reader.readLine()) != null) {
                 //process line
+                if(mLine.contains("//"))
+                    mLine = mLine.substring(0, mLine.indexOf("//"));
                 shader += mLine;
             }
         } catch (IOException e) {
