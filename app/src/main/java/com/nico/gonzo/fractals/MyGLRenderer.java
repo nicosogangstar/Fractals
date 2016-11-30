@@ -66,8 +66,8 @@ class MyGLRenderer implements GLSurfaceView.Renderer {
         float rangeI = mMandelbrot.bounds[1] - mMandelbrot.bounds[0];
         float rangeR = mMandelbrot.bounds[3] - mMandelbrot.bounds[2];
 
-        float deltaI = (distR / dWidth) * rangeI;
-        float deltaR = (distI / dHeight) * rangeR;
+        float deltaI = (distR / dHeight) * rangeI;
+        float deltaR = (distI / dWidth) * rangeR;
 
         mMandelbrot.bounds[0] -= deltaI;
         mMandelbrot.bounds[1] -= deltaI;
