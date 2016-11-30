@@ -12,6 +12,7 @@ class Fractal {
     private final int mProgram;
     private float[] viewport;
     float[] bounds = {-2f, 2f, -2f, 2f};;
+    float d = 2.0f;
 
     // number of coordinates per vertex in this array
     static float[] coords = {
@@ -49,7 +50,7 @@ class Fractal {
     private int mPositionHandle;
 
     // Uniform handles
-    private int mViewportHandle, mBoundsHandle;
+    private int mViewportHandle, mBoundsHandle, mNHandle;
 
     private final int vertexStride = 2 * 4;
 
@@ -70,6 +71,9 @@ class Fractal {
 
         mBoundsHandle = GLES20.glGetUniformLocation(mProgram, "bounds");
         GLES20.glUniform4fv(mBoundsHandle, 1, bounds, 0);
+
+        mNHandle = GLES20.glGetUniformLocation(mProgram, "n");
+        GLES20.glUniform1f(mNHandle, d);
 
         GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, coords.length / 2);
 

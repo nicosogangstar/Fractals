@@ -112,4 +112,8 @@ class MyGLRenderer implements GLSurfaceView.Renderer {
         }
         return shader;
     }
+
+    static void increaseD(float amount) {
+        mFractal.d += amount;
+    }
 }

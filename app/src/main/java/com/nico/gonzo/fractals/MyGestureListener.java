@@ -12,6 +12,11 @@ class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
     }
 
     @Override
+    public void onLongPress(MotionEvent e) {
+        MyGLRenderer.increaseD(.1f);
+    }
+
+    @Override
     public boolean onDown(MotionEvent event) {
         return true;
     }

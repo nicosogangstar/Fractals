@@ -1,6 +1,7 @@
 precision highp float;
 uniform vec2 viewportDimensions;
 uniform vec4 bounds;
+uniform float n;
 
 vec3 hsv2rgb(vec3 c) {
     vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
@@ -20,18 +21,17 @@ void main() {
 
     vec2 z = c;
     float iterations = 0.0;
-    float maxIterations = 100.0;
-    const int imaxIterations = 100;
+    float maxIterations = 50.0;
+    const int imaxIterations = 50;
 
     for(int i = 0; i < imaxIterations; i++) {
-        float t = 2.0 * z.x * z.y + c.y;
-        z.x = z.x * z.x - z.y * z.y + c.x;
-        z.y = t;
+        float xtmp = pow((z.x*z.x+z.y*z.y),(n/2.0))*cos(n*atan(z.y,z.x)) + c.x;
+        z.y = pow((z.x*z.x+z.y*z.y),(n/2.0))*sin(n*atan(z.y,z.x)) + c.y;
+        z.x = xtmp;
 
         if(z.x * z.x + z.y * z.y > 4.0) {
             break;
         }
-
         iterations += 1.0;
     }
 
