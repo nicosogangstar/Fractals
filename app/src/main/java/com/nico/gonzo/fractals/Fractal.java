@@ -13,7 +13,7 @@ class Fractal {
     private float[] viewport;
     float[] bounds = {-2f, 2f, -2f, 2f};;
     float d = 2.0f;
-    float iterations = 100.0f;
+    float iterations = 350.0f;
 
     // number of coordinates per vertex in this array
     static float[] coords = {

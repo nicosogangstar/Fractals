@@ -50,6 +50,26 @@ float mandelbrotN(vec2 c) {
     return its;
 }
 
+float standardJulia(vec2 c) {
+    float posR = -0.7;
+    float posI = 0.27015;
+
+    vec2 z = c;
+    float its = 0.0;
+    for(int i = 0; i < int(maxIterations); i++) {
+        c = z;
+        z.x = c.x * c.x - c.y * c.y + posR;
+        z.y = 2.0 * c.x * c.y + posI;
+
+        if(z.x * z.x + z.y * z.y > 4.0) {
+            break;
+        }
+
+        its += 1.0;
+    }
+    return its;
+}
+
 // Coloring functions
 vec4 linearInterpolation(vec2 z, float its) {
     if (its < maxIterations) {
@@ -82,5 +102,5 @@ void main() {
         gl_FragCoord.y * (bounds.y - bounds.x) / viewportDimensions.y + bounds.x
     );
 
-    gl_FragColor = basicColoring(c, standardMandelbrot(c));
+    gl_FragColor = basicColoring(c, standardJulia(c));
 }
