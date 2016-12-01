@@ -18,8 +18,10 @@ import static android.R.attr.height;
 
 class MyGLRenderer implements GLSurfaceView.Renderer {
 
+    // Define fractals
     private static Mandelbrot mMandelbrot;
-    private static Fractal mJulia;
+    private static Julia mJulia;
+
     private static AssetManager assetManager;
     private static int dWidth, dHeight;
 
@@ -28,13 +30,14 @@ class MyGLRenderer implements GLSurfaceView.Renderer {
     }
 
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-        mMandelbrot = new Mandelbrot("fractal");
-        mJulia = new Fractal("");
+        mMandelbrot = new Mandelbrot("mandelbrot", 100);
+        mJulia = new Julia("julia", 350);
     }
 
     public void onDrawFrame(GL10 unused) {
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
-        mMandelbrot.draw();
+        //mMandelbrot.draw();
+        mJulia.draw();
     }
 
     public void onSurfaceChanged(GL10 unused, int _width, int _height) {

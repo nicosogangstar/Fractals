@@ -11,7 +11,7 @@ public class Fractal {
     protected final int mProgram;
     protected FloatBuffer vertexBuffer;
     protected float[] viewport;
-    protected float iterations = 350.0f;
+    protected float iterations;
 
     // number of coordinates per vertex in this array
     private static float[] coords = {
@@ -24,9 +24,9 @@ public class Fractal {
          1, -1
     };
 
-    Fractal(String shader) {
+    Fractal(String shader, float iterations) {
         // Load the shaders
-        int vertexShader = MyGLRenderer.loadShader(GLES20.GL_VERTEX_SHADER, MyGLRenderer.readShader(shader + ".vs.glsl"));
+        int vertexShader = MyGLRenderer.loadShader(GLES20.GL_VERTEX_SHADER, MyGLRenderer.readShader("fractal.vs.glsl"));
         int fragmentShader = MyGLRenderer.loadShader(GLES20.GL_FRAGMENT_SHADER, MyGLRenderer.readShader(shader + ".fs.glsl"));
 
         // Create the program
@@ -43,6 +43,9 @@ public class Fractal {
         vertexBuffer = vBuffer.asFloatBuffer();
         vertexBuffer.put(coords);
         vertexBuffer.position(0);
+
+        // Set the max iterations
+        this.iterations = iterations;
     }
 
     // Attrib handles
