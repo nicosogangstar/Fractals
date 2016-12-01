@@ -83,6 +83,7 @@ vec4 basicColoring(vec2 z, float its) {
 void main() {
     vec2 c = vec2(
         gl_FragCoord.x * (bounds.w - bounds.z) / viewportDimensions.x + bounds.z,
+        gl_FragCoord.y * (bounds.y - bounds.x) / viewportDimensions.y / 1.5 + bounds.x
     );
 
     gl_FragColor = basicColoring(c, standardMandelbrot(c));
