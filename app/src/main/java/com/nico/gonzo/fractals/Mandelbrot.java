@@ -2,11 +2,12 @@ package com.nico.gonzo.fractals;
 
 import android.opengl.GLES20;
 
+import static android.R.attr.height;
+import static android.R.attr.width;
+
 class Mandelbrot extends Fractal {
 
-    // TODO make private
-    float[] bounds = {-2f, 2f, -2f, 2f};
-
+    private float[] bounds = {-2f, 2f, -2f, 2f};
     private float n = 2.0f;
     private int mBoundsHandle, mNHandle;
 
@@ -31,5 +32,28 @@ class Mandelbrot extends Fractal {
 
     float getN() {
         return n;
+    }
+
+    // TODO implement
+    float[] getPosition() {
+        return new float[]{};
+    }
+
+    void onResized() {
+        float rangeR = bounds[3] - bounds[2];
+        bounds[3] = (float)((bounds[1] - bounds[0]) * (width / height) / 1.4 + bounds[2]);
+        float newRangeR = bounds[3] - bounds[2];
+        bounds[2] -= (newRangeR - rangeR) / 2;
+        bounds[3] = (float)((bounds[1] - bounds[0]) * (width / height) / 1.4 + bounds[2]);
+    }
+
+    void zoom(float rangeModifier) {
+        float rangeI = bounds[1] - bounds[0];
+        float newRangeI;
+        newRangeI = rangeI / rangeModifier;
+        float delta = newRangeI - rangeI;
+        bounds[0] -= delta / 2;
+        bounds[1] = bounds[0] + newRangeI;
+        onResized();
     }
 }

@@ -5,7 +5,7 @@ import android.view.ScaleGestureDetector;
 class MyScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
     @Override
     public boolean onScale(ScaleGestureDetector detector) {
-        MyGLRenderer.zoom(detector.getScaleFactor());
+        MyGLRenderer.mMandelbrot.zoom(detector.getScaleFactor());
         return true;
     }
 }
