@@ -8,7 +8,7 @@ import static android.R.attr.width;
 class Mandelbrot extends Fractal {
 
     private final String TAG = "Mandelbrot";
-    private static float[] bounds = {-2f, 2f, -2f, 2f};
+    private float[] bounds = {-2f, 2f, -2f, 2f};
     private float n = 2.0f;
     private int mBoundsHandle, mNHandle;
 
@@ -35,7 +35,7 @@ class Mandelbrot extends Fractal {
         return n;
     }
 
-    static float[] getPosition() {
+    float[] getPosition() {
         return new float[]{(bounds[3] + bounds[2]) / 2, (bounds[0] + bounds[1]) / 2};
     }
 

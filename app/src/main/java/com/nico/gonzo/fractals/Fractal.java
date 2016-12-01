@@ -26,8 +26,8 @@ public class Fractal {
 
     Fractal(String shader, float iterations) {
         // Load the shaders
-        int vertexShader = FractalRenderer.loadShader(GLES20.GL_VERTEX_SHADER, FractalRenderer.readShader("fractal.vs.glsl"));
-        int fragmentShader = FractalRenderer.loadShader(GLES20.GL_FRAGMENT_SHADER, FractalRenderer.readShader(shader + ".fs.glsl"));
+        int vertexShader = MyGLRenderer.loadShader(GLES20.GL_VERTEX_SHADER, MyGLRenderer.readShader("fractal.vs.glsl"));
+        int fragmentShader = MyGLRenderer.loadShader(GLES20.GL_FRAGMENT_SHADER, MyGLRenderer.readShader(shader + ".fs.glsl"));
 
         // Create the program
         mProgram = GLES20.glCreateProgram();
