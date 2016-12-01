@@ -42,8 +42,8 @@ class MyGLRenderer implements GLSurfaceView.Renderer {
 
         // Update fractals
         mMandelbrot.onResized();
-        mMandelbrot.setViewport(new float[]{_width, _height/2});
-        mJulia.setViewport(new float[]{_width, _height/2});
+        mMandelbrot.setViewport(new float[]{_width, _height});
+        mJulia.setViewport(new float[]{_width, _height});
     }
 
     static int loadShader(int type, String shaderCode){
