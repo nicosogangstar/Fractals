@@ -8,14 +8,14 @@ import android.view.ScaleGestureDetector;
 
 class MyGLSurfaceView extends GLSurfaceView {
 
-    private MyGLRenderer mRenderer;
+    private MandelbrotRenderer mRenderer;
     private GestureDetectorCompat mGestureDetector = null;
     private ScaleGestureDetector mScaleDetector = null;
 
     public MyGLSurfaceView(Context context){
         super(context);
         setEGLContextClientVersion(2);
-        mRenderer = new MyGLRenderer(context);
+        mRenderer = new MandelbrotRenderer(context);
         mGestureDetector = new GestureDetectorCompat(context, new MyGestureListener());
         mScaleDetector = new ScaleGestureDetector(context, new MyScaleListener());
         setRenderer(mRenderer);
