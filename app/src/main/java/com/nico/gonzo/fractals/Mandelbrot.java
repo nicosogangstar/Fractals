@@ -51,6 +51,7 @@ class Mandelbrot extends Fractal {
     }
 
     void onResized() {
+        // Real number axis adjustment
         float rangeR = bounds[3] - bounds[2];
         bounds[3] = (float)((bounds[1] - bounds[0]) * (width / height) / 1.4 + bounds[2]);
         float newRangeR = bounds[3] - bounds[2];
@@ -59,6 +60,7 @@ class Mandelbrot extends Fractal {
     }
 
     void zoom(float rangeModifier) {
+        // Imaginary number axis adjustment
         float rangeI = bounds[1] - bounds[0];
         float newRangeI;
         newRangeI = rangeI / rangeModifier;

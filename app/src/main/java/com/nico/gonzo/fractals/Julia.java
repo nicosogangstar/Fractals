@@ -32,8 +32,4 @@ class Julia extends Fractal {
     void setJuliaPos(float[] newPos) {
         juliaPos = newPos;
     }
-
-    public float[] getJuliaPos() {
-        return juliaPos;
-    }
 }
