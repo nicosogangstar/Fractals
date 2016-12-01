@@ -7,7 +7,7 @@ import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
 public class Fractal {
-
+    private final String TAG = "Fractal";
     protected final int mProgram;
     protected FloatBuffer vertexBuffer;
     protected float[] viewport;

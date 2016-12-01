@@ -47,6 +47,7 @@ class MyGLRenderer implements GLSurfaceView.Renderer {
         onResized();
         GLES20.glViewport(0, 0, _width, _height);
         mMandelbrot.setViewport(new float[]{_width, _height});
+        mJulia.setViewport(new float[]{_width, _height});
     }
 
     private static void onResized() {
