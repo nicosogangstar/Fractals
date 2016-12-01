@@ -1,3 +1,2 @@
-# Fractals
-oh its lit
-boutta be some bomb ass fractals
+# Android Fractals
+This is a OpenGL ES implementation of the Mandelbrot and Julia sets.
