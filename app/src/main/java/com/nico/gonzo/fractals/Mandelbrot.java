@@ -56,4 +56,17 @@ class Mandelbrot extends Fractal {
         bounds[1] = bounds[0] + newRangeI;
         onResized();
     }
+
+    void pan(float distI, float distR) {
+        float rangeI = bounds[1] - bounds[0];
+        float rangeR = bounds[3] - bounds[2];
+
+        float deltaI = (distR / viewport[1]) * rangeI;
+        float deltaR = (distI / viewport[0]) * rangeR;
+
+        bounds[0] -= deltaI;
+        bounds[1] -= deltaI;
+        bounds[2] += deltaR;
+        bounds[3] += deltaR;
+    }
 }

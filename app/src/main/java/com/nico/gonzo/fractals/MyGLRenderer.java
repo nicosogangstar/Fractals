@@ -23,7 +23,6 @@ class MyGLRenderer implements GLSurfaceView.Renderer {
     private static Julia mJulia;
 
     private static AssetManager assetManager;
-    private static int dWidth, dHeight;
 
     MyGLRenderer(Context context) {
         assetManager = context.getAssets();
@@ -41,9 +40,6 @@ class MyGLRenderer implements GLSurfaceView.Renderer {
     }
 
     public void onSurfaceChanged(GL10 unused, int _width, int _height) {
-        dWidth = _width;
-        dHeight = _height;
-
         Log.i("MyGLRenderer", _width + ":" + _height);
         GLES20.glViewport(0, 0, _width, _height);
 
@@ -51,19 +47,6 @@ class MyGLRenderer implements GLSurfaceView.Renderer {
         mMandelbrot.onResized();
         mMandelbrot.setViewport(new float[]{_width, _height});
         mJulia.setViewport(new float[]{_width, _height});
-    }
-
-    static void pan(float distI, float distR) {
-        float rangeI = mMandelbrot.bounds[1] - mMandelbrot.bounds[0];
-        float rangeR = mMandelbrot.bounds[3] - mMandelbrot.bounds[2];
-
-        float deltaI = (distR / dHeight) * rangeI;
-        float deltaR = (distI / dWidth) * rangeR;
-
-        mMandelbrot.bounds[0] -= deltaI;
-        mMandelbrot.bounds[1] -= deltaI;
-        mMandelbrot.bounds[2] += deltaR;
-        mMandelbrot.bounds[3] += deltaR;
     }
 
     static int loadShader(int type, String shaderCode){
@@ -104,9 +87,5 @@ class MyGLRenderer implements GLSurfaceView.Renderer {
             }
         }
         return shader;
-    }
-
-    static void increaseD(float amount) {
-        mMandelbrot.setN(mMandelbrot.getN() + amount);
     }
 }
