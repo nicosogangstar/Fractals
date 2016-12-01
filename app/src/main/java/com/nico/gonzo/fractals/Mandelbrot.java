@@ -34,9 +34,8 @@ class Mandelbrot extends Fractal {
         return n;
     }
 
-    // TODO implement
     float[] getPosition() {
-        return new float[]{};
+        return new float[]{(bounds[0] - bounds[1]) / 2, (bounds[3] - bounds[2]) / 2};
     }
 
     void onResized() {
