@@ -9,6 +9,17 @@ class Julia extends Fractal {
 
     Julia(String shader, float iterations) {
         super(shader, iterations);
+        super.setupCoords(
+            new float[]{
+                -1, 0,
+                -1, -1,
+                1, -1,
+
+                -1, 0,
+                1, 0,
+                1, -1
+            }
+        );
     }
 
     @Override
@@ -18,7 +29,7 @@ class Julia extends Fractal {
         GLES20.glUniform2fv(mJuliaPosHandle, 1, juliaPos, 0);
     }
 
-    public void setJuliaPos(float[] newPos) {
+    void setJuliaPos(float[] newPos) {
         juliaPos = newPos;
     }
 
