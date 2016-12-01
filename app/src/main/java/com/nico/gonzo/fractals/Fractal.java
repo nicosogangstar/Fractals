@@ -6,17 +6,15 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
-class Fractal {
+public class Fractal {
 
-    private FloatBuffer vertexBuffer;
-    private final int mProgram;
-    private float[] viewport;
-    float[] bounds = {-2f, 2f, -2f, 2f};;
-    float d = 2.0f;
-    float iterations = 350.0f;
+    protected final int mProgram;
+    protected FloatBuffer vertexBuffer;
+    protected float[] viewport;
+    protected float iterations = 350.0f;
 
     // number of coordinates per vertex in this array
-    static float[] coords = {
+    private static float[] coords = {
         -1,  1,
         -1, -1,
          1, -1,
@@ -26,11 +24,10 @@ class Fractal {
          1, -1
     };
 
-    // TODO make type work
-    Fractal(String type) {
+    Fractal(String shader) {
         // Load the shaders
-        int vertexShader = MyGLRenderer.loadShader(GLES20.GL_VERTEX_SHADER, MyGLRenderer.readShader("fractal.vs.glsl"));
-        int fragmentShader = MyGLRenderer.loadShader(GLES20.GL_FRAGMENT_SHADER, MyGLRenderer.readShader("fractal.fs.glsl"));
+        int vertexShader = MyGLRenderer.loadShader(GLES20.GL_VERTEX_SHADER, MyGLRenderer.readShader(shader + ".vs.glsl"));
+        int fragmentShader = MyGLRenderer.loadShader(GLES20.GL_FRAGMENT_SHADER, MyGLRenderer.readShader(shader + ".fs.glsl"));
 
         // Create the program
         mProgram = GLES20.glCreateProgram();
@@ -49,12 +46,12 @@ class Fractal {
     }
 
     // Attrib handles
-    private int mPositionHandle;
+    int mPositionHandle;
 
     // Uniform handles
-    private int mViewportHandle, mBoundsHandle, mNHandle, mMaxIterationsHandle;
+    int mViewportHandle, mMaxIterationsHandle;
 
-    private final int vertexStride = 2 * 4;
+    final int vertexStride = 2 * 4;
 
     void draw() {
         // Clear the screen
@@ -70,12 +67,6 @@ class Fractal {
 
         mViewportHandle = GLES20.glGetUniformLocation(mProgram, "viewportDimensions");
         GLES20.glUniform2fv(mViewportHandle, 1, viewport, 0);
-
-        mBoundsHandle = GLES20.glGetUniformLocation(mProgram, "bounds");
-        GLES20.glUniform4fv(mBoundsHandle, 1, bounds, 0);
-
-        mNHandle = GLES20.glGetUniformLocation(mProgram, "n");
-        GLES20.glUniform1f(mNHandle, d);
 
         mMaxIterationsHandle = GLES20.glGetUniformLocation(mProgram, "maxIterations");
         GLES20.glUniform1f(mMaxIterationsHandle, iterations);
