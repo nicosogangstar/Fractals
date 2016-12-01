@@ -4,8 +4,10 @@ import android.opengl.GLES20;
 
 class Mandelbrot extends Fractal {
 
+    // TODO make private
     float[] bounds = {-2f, 2f, -2f, 2f};
-    float n = 2.0f;
+
+    private float n = 2.0f;
     private int mBoundsHandle, mNHandle;
 
     Mandelbrot(String shader, float iterations) {
@@ -21,5 +23,13 @@ class Mandelbrot extends Fractal {
 
         mNHandle = GLES20.glGetUniformLocation(mProgram, "n");
         GLES20.glUniform1f(mNHandle, n);
+    }
+
+    void setN(float n) {
+        this.n = n;
+    }
+
+    float getN() {
+        return n;
     }
 }

@@ -4,7 +4,7 @@ import android.opengl.GLES20;
 
 class Julia extends Fractal {
 
-    private float[] juliaPos = {-0.7f, 0.27015f};
+    private float[] juliaPos = {.7f, -.23f};
     private int mJuliaPosHandle;
 
     Julia(String shader, float iterations) {
@@ -16,5 +16,13 @@ class Julia extends Fractal {
         super.draw();
         mJuliaPosHandle = GLES20.glGetUniformLocation(super.mProgram, "juliaPos");
         GLES20.glUniform2fv(mJuliaPosHandle, 1, juliaPos, 0);
+    }
+
+    public void setJuliaPos(float[] newPos) {
+        juliaPos = newPos;
+    }
+
+    public float[] getJuliaPos() {
+        return juliaPos;
     }
 }

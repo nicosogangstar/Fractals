@@ -122,6 +122,6 @@ class MyGLRenderer implements GLSurfaceView.Renderer {
     }
 
     static void increaseD(float amount) {
-        mMandelbrot.n += amount;
+        mMandelbrot.setN(mMandelbrot.getN() + amount);
     }
 }
