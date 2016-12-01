@@ -14,15 +14,7 @@ public class Fractal {
     protected float iterations;
 
     // number of coordinates per vertex in this array
-    private static float[] coords = {
-        -1,  1,
-        -1, -1,
-         1, -1,
-
-        -1,  1,
-         1,  1,
-         1, -1
-    };
+    protected float[] coords;
 
     Fractal(String shader, float iterations) {
         // Load the shaders
@@ -37,18 +29,21 @@ public class Fractal {
         GLES20.glAttachShader(mProgram, fragmentShader);
         GLES20.glLinkProgram(mProgram);
 
+        // Set the max iterations
+        this.iterations = iterations;
+
+        // Clear the screen
+        GLES20.glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
+    }
+
+    void setupCoords(float[] newCoords) {
+        coords = newCoords;
         // Allocate memory for the coordinates
         ByteBuffer vBuffer = ByteBuffer.allocateDirect(coords.length * 4);
         vBuffer.order(ByteOrder.nativeOrder());
         vertexBuffer = vBuffer.asFloatBuffer();
         vertexBuffer.put(coords);
         vertexBuffer.position(0);
-
-        // Set the max iterations
-        this.iterations = iterations;
-
-        // Clear the screen
-        GLES20.glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
     }
 
     // Attrib handles
