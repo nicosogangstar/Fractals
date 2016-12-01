@@ -46,6 +46,9 @@ public class Fractal {
 
         // Set the max iterations
         this.iterations = iterations;
+
+        // Clear the screen
+        GLES20.glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
     }
 
     // Attrib handles
@@ -57,9 +60,6 @@ public class Fractal {
     final int vertexStride = 2 * 4;
 
     void draw() {
-        // Clear the screen
-        GLES20.glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
-
         // Use the program
         GLES20.glUseProgram(mProgram);
 

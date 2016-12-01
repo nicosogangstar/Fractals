@@ -1,9 +1,6 @@
 package com.nico.gonzo.fractals;
 
 import android.opengl.GLES20;
-import android.util.Log;
-
-import java.util.Arrays;
 
 import static android.R.attr.height;
 import static android.R.attr.width;
