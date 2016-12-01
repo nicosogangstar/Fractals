@@ -1,8 +1,13 @@
 precision highp float;
+
+// All fractals
 uniform vec2 viewportDimensions;
-uniform vec2 juliaPos;
 uniform float maxIterations;
 
+// Julia specific
+uniform vec2 juliaPos;
+
+// Standard Julia function
 float standardJulia(vec2 c) {
     vec2 z = c;
     float its = 0.0;
@@ -20,6 +25,7 @@ float standardJulia(vec2 c) {
     return its;
 }
 
+// Coloring function
 vec4 basicColoring(vec2 z, float its) {
     float quotient = (its / maxIterations);
     float fraction = mod(quotient, 1.0) * (maxIterations / 100.0);
@@ -28,9 +34,10 @@ vec4 basicColoring(vec2 z, float its) {
 
 // Main function
 void main() {
+//-2f, 2f, -2f, 2f
     vec2 c = vec2(
-        gl_FragCoord.x / viewportDimensions.x,
-        gl_FragCoord.y / viewportDimensions.y
+        gl_FragCoord.x * 4.0 / viewportDimensions.x - 2.0,
+        gl_FragCoord.y * 4.0 / viewportDimensions.y - 2.0
     );
 
     gl_FragColor = basicColoring(c, standardJulia(c));

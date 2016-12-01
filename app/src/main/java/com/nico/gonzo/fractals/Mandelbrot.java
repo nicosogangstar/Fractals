@@ -3,6 +3,7 @@ package com.nico.gonzo.fractals;
 import android.opengl.GLES20;
 
 class Mandelbrot extends Fractal {
+
     float[] bounds = {-2f, 2f, -2f, 2f};
     float n = 2.0f;
     private int mBoundsHandle, mNHandle;

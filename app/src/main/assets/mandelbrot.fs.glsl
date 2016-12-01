@@ -1,8 +1,12 @@
 precision highp float;
+
+// All fractals
 uniform vec2 viewportDimensions;
+uniform float maxIterations;
+
+// Mandelbrot specific
 uniform vec4 bounds;
 uniform float n;
-uniform float maxIterations;
 
 // Misc math functions
 vec3 hsv2rgb(vec3 c) {
@@ -15,7 +19,7 @@ float interpolate(float v0, float v1, float t) {
     return (1.0 - t) * v0 + t * v1;
 }
 
-// Fractal functions
+// Mandelbrot functions
 float standardMandelbrot(vec2 c) {
     vec2 z = c;
     float its = 0.0;

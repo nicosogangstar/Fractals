@@ -13,9 +13,8 @@ class Julia extends Fractal {
 
     @Override
     public void draw() {
-        mJuliaPosHandle = GLES20.glGetUniformLocation(super.mProgram, "juliaPos");
-        GLES20.glUniform2fv(mJuliaPosHandle, 1, juliaPos, 0);
-
         super.draw();
+//        mJuliaPosHandle = GLES20.glGetUniformLocation(super.mProgram, "juliaPos");
+//        GLES20.glUniform2fv(mJuliaPosHandle, 1, juliaPos, 0);
     }
 }
