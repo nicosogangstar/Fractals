@@ -1,12 +1,16 @@
 package com.nico.gonzo.fractals;
 
 import android.opengl.GLES20;
+import android.util.Log;
+
+import java.util.Arrays;
 
 import static android.R.attr.height;
 import static android.R.attr.width;
 
 class Mandelbrot extends Fractal {
 
+    private final String TAG = "Mandelbrot";
     private float[] bounds = {-2f, 2f, -2f, 2f};
     private float n = 2.0f;
     private int mBoundsHandle, mNHandle;
@@ -35,7 +39,7 @@ class Mandelbrot extends Fractal {
     }
 
     float[] getPosition() {
-        return new float[]{(bounds[0] - bounds[1]) / 2, (bounds[3] - bounds[2]) / 2};
+        return new float[]{(bounds[3] + bounds[2]) / 2, (bounds[0] + bounds[1]) / 2};
     }
 
     void onResized() {
