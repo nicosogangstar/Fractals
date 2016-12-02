@@ -16,7 +16,7 @@ public class Fractal {
     // number of coordinates per vertex in this array
     protected float[] coords;
 
-    Fractal(String shader, float iterations) {
+    Fractal(String shader, float iterations, float[] newCoords) {
         // Load the shaders
         int vertexShader = MyGLRenderer.loadShader(GLES20.GL_VERTEX_SHADER, MyGLRenderer.readShader("fractal.vs.glsl"));
         int fragmentShader = MyGLRenderer.loadShader(GLES20.GL_FRAGMENT_SHADER, MyGLRenderer.readShader(shader + ".fs.glsl"));
@@ -34,9 +34,7 @@ public class Fractal {
 
         // Clear the screen
         GLES20.glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
-    }
 
-    void setupCoords(float[] newCoords) {
         coords = newCoords;
         // Allocate memory for the coordinates
         ByteBuffer vBuffer = ByteBuffer.allocateDirect(coords.length * 4);

@@ -13,8 +13,7 @@ class Mandelbrot extends Fractal {
     private int mBoundsHandle, mNHandle;
 
     Mandelbrot(String shader, float iterations) {
-        super(shader, iterations);
-        super.setupCoords(
+        super(shader, iterations,
             new float[]{
                 -1, 1,
                 -1, 0,
