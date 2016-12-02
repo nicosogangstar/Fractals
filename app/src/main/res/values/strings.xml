@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Fractals</string>
 
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="option1">Change Fractal</string>
+    <string name="option2">Change Coloring</string>
+    <string name="option3">Change Palette</string>
+
 </resources>
