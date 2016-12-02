@@ -1,6 +1,7 @@
 package com.nico.gonzo.fractals;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -21,7 +22,7 @@ public class ViewerActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_viewer);
 
-        fractalView = new MyGLSurfaceView(this);
+        fractalView = new MyGLSurfaceView(this, 0);
 
         linearLayout = (LinearLayout) findViewById(R.id.fractalView);
         linearLayout.addView(fractalView);
@@ -37,7 +38,7 @@ public class ViewerActivity extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(
             new NavigationView.OnNavigationItemSelectedListener() {
                 @Override
-                public boolean onNavigationItemSelected(MenuItem menuItem) {
+                public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                     selectDrawerItem(menuItem);
                     return true;
                 }
@@ -49,7 +50,7 @@ public class ViewerActivity extends AppCompatActivity {
         switch(menuItem.getItemId()) {
             case R.id.nav_functions:
                 linearLayout.removeAllViews();
-                fractalView = new MyGLSurfaceView(this);
+                fractalView = new MyGLSurfaceView(this, 1);
                 linearLayout.addView(fractalView);
                 break;
             case R.id.nav_brush:

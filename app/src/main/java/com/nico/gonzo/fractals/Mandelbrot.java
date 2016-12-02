@@ -12,18 +12,8 @@ class Mandelbrot extends Fractal {
     private float n = 2.0f;
     private int mBoundsHandle, mNHandle;
 
-    Mandelbrot(String shader, float iterations) {
-        super(shader, iterations,
-            new float[]{
-                -1, 1,
-                -1, 0,
-                1, 0,
-
-                -1, 1,
-                1, 1,
-                1, 0
-            }
-        );
+    Mandelbrot(String shader, float iterations, float[] coords) {
+        super(shader, iterations, coords);
     }
 
     @Override

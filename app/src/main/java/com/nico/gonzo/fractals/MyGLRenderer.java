@@ -19,14 +19,56 @@ class MyGLRenderer implements GLSurfaceView.Renderer {
     private static Julia mJulia;
 
     private static AssetManager assetManager;
+    private final int fractalType;
 
-    MyGLRenderer(Context context) {
+    MyGLRenderer(Context context, int fractalType) {
         assetManager = context.getAssets();
+        this.fractalType = fractalType;
     }
 
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-        mMandelbrot = new Mandelbrot("mandelbrot", 100);
-        mJulia = new Julia("julia", 350);
+        float[] topHalf = {
+                -1, 1,
+                -1, 0,
+                1, 0,
+
+                -1, 1,
+                1, 1,
+                1, 0
+        };
+
+        float[] bottomHalf = {
+                -1, 0,
+                -1, -1,
+                1, -1,
+
+                -1, 0,
+                1, 0,
+                1, -1
+        };
+
+        float[] full = {
+                -1,  1,
+                -1, -1,
+                1, -1,
+
+                -1,  1,
+                1,  1,
+                1, -1
+        };
+
+        float[] nill = {0, 0, 0, 0, 0, 0};
+
+        switch (fractalType) {
+            case 0:
+                mMandelbrot = new Mandelbrot("mandelbrot", 400, full);
+                mJulia = new Julia("julia", 0, nill);
+                break;
+            case 1:
+                mMandelbrot = new Mandelbrot("mandelbrot", 100, topHalf);
+                mJulia = new Julia("julia", 350, bottomHalf);
+                break;
+        }
     }
 
     public void onDrawFrame(GL10 unused) {
