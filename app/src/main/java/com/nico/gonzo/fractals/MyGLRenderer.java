@@ -61,7 +61,7 @@ class MyGLRenderer implements GLSurfaceView.Renderer {
 
         switch (fractalType) {
             case 0:
-                mMandelbrot = new Mandelbrot("mandelbrot", 400, full);
+                mMandelbrot = new Mandelbrot("mandelbrot", 100, full);
                 mJulia = new Julia("julia", 0, nill);
                 break;
             case 1:
