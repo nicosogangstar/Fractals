@@ -1,13 +1,19 @@
 package com.nico.gonzo.fractals;
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.widget.LinearLayout;
 
 public class ViewerActivity extends AppCompatActivity {
+
+    DrawerLayout drawerLayout;
+    LinearLayout linearLayout;
+
+    MyGLSurfaceView fractalView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -15,13 +21,45 @@ public class ViewerActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_viewer);
 
-        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.fractalView);
-        linearLayout.addView(new MyGLSurfaceView(this));
+        fractalView = new MyGLSurfaceView(this);
+
+        linearLayout = (LinearLayout) findViewById(R.id.fractalView);
+        linearLayout.addView(fractalView);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        final ActionBar actionBar = getSupportActionBar();
-
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        setupDrawerContent((NavigationView) findViewById(R.id.nvView));
     }
+
+    private void setupDrawerContent(NavigationView navigationView) {
+        navigationView.setNavigationItemSelectedListener(
+            new NavigationView.OnNavigationItemSelectedListener() {
+                @Override
+                public boolean onNavigationItemSelected(MenuItem menuItem) {
+                    selectDrawerItem(menuItem);
+                    return true;
+                }
+            }
+        );
+    }
+
+    public void selectDrawerItem(MenuItem menuItem) {
+        switch(menuItem.getItemId()) {
+            case R.id.nav_functions:
+                linearLayout.removeAllViews();
+                fractalView = new MyGLSurfaceView(this);
+                linearLayout.addView(fractalView);
+                break;
+            case R.id.nav_brush:
+                break;
+            case R.id.nav_palette:
+                break;
+        }
+
+        setTitle(menuItem.getTitle());
+        drawerLayout.closeDrawers();
+    }
+
 }
