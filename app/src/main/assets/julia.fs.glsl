@@ -25,13 +25,6 @@ float standardJulia(vec2 c) {
     return its;
 }
 
-// Coloring function
-vec4 basicColoring(vec2 z, float its) {
-    float quotient = (its / maxIterations);
-    float fraction = mod(quotient, 1.0) * (maxIterations / 100.0);
-    return vec4(fraction, fraction, fraction, 1.0);
-}
-
 // Main function
 void main() {
 //-2f, 2f, -2f, 2f
@@ -40,5 +33,5 @@ void main() {
         gl_FragCoord.y * 4.0 / viewportDimensions.y - 2.0
     );
 
-    gl_FragColor = basicColoring(c, standardJulia(c));
+    gl_FragColor = basicColoring(c, standardJulia(c), maxIterations);
 }

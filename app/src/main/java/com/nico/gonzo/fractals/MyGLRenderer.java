@@ -84,9 +84,15 @@ class MyGLRenderer implements GLSurfaceView.Renderer {
             // do reading, usually loop until end of file reading
             String mLine;
             while ((mLine = reader.readLine()) != null) {
-                //process line
+                // Process line
                 if(mLine.contains("//"))
                     mLine = mLine.substring(0, mLine.indexOf("//"));
+                else if(mLine.contains("void main()")) {
+                    // Load in coloring functions
+                    String coloring = readShader("coloring.glsl");
+                    Log.d("MyGLRenderer", coloring);
+                    shader += coloring;
+                }
                 shader += mLine;
             }
         } catch (IOException e) {

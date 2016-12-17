@@ -9,8 +9,7 @@ class Mandelbrot extends Fractal {
 
     private final String TAG = "Mandelbrot";
 
-    private float n = 2.0f;
-    private int mBoundsHandle, mNHandle;
+    private int mBoundsHandle;
 
     Mandelbrot(float iterations, float[] coords) {
         super("mandelbrot", iterations, coords);
@@ -22,16 +21,5 @@ class Mandelbrot extends Fractal {
 
         mBoundsHandle = GLES20.glGetUniformLocation(super.mProgram, "bounds");
         GLES20.glUniform4fv(mBoundsHandle, 1, bounds, 0);
-
-        mNHandle = GLES20.glGetUniformLocation(mProgram, "n");
-        GLES20.glUniform1f(mNHandle, n);
-    }
-
-    void setN(float n) {
-        this.n = n;
-    }
-
-    float getN() {
-        return n;
     }
 }
