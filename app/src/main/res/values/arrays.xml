@@ -2,6 +2,7 @@
 <resources>
     <string-array name="fractals">
         <item>Mandelbrot</item>
-        <item>Mandelbrot and Julia</item>
+        <item>Julia</item>
+        <item>Newton</item>
     </string-array>
 </resources>

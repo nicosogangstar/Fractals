@@ -27,27 +27,7 @@ class MyGLRenderer implements GLSurfaceView.Renderer {
     }
 
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-        float[] topHalf = {
-                -1, 1,
-                -1, 0,
-                1, 0,
-
-                -1, 1,
-                1, 1,
-                1, 0
-        };
-
-        float[] bottomHalf = {
-                -1, 0,
-                -1, -1,
-                1, -1,
-
-                -1, 0,
-                1, 0,
-                1, -1
-        };
-
-        float[] full = {
+        float[] coords = {
                 -1,  1,
                 -1, -1,
                 1, -1,
@@ -59,13 +39,13 @@ class MyGLRenderer implements GLSurfaceView.Renderer {
 
         switch (fractalType) {
             case 0:
-                fractal = new Mandelbrot(100, full);
+                fractal = new Mandelbrot(100, coords);
                 break;
             case 1:
-                fractal = new Julia(100, full);
+                fractal = new Julia(100, coords);
                 break;
             case 2:
-                // TODO
+                fractal = new Newton(100, coords);
                 break;
         }
     }

@@ -13,12 +13,12 @@ class Fractal {
     private final String TAG = "Fractal";
     final int mProgram;
     float[] bounds = {-2f, 2f, -2f, 2f};
-    FloatBuffer vertexBuffer;
-    float[] viewport;
-    float iterations;
+    private FloatBuffer vertexBuffer;
+    private float[] viewport;
+    private float iterations;
 
     // number of coordinates per vertex in this array
-    float[] coords;
+    private float[] coords;
 
     Fractal(String shader, float iterations, float[] newCoords) {
         // Load the shaders
@@ -49,12 +49,12 @@ class Fractal {
     }
 
     // Attrib handles
-    int mPositionHandle;
+    private int mPositionHandle,
 
     // Uniform handles
-    int mViewportHandle, mMaxIterationsHandle;
+    mViewportHandle, mMaxIterationsHandle,
 
-    final int vertexStride = 2 * 4;
+    vertexStride = 2 * 4;
 
     void draw() {
         // Use the program
