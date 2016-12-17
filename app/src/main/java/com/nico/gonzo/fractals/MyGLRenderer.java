@@ -8,6 +8,7 @@ import android.util.Log;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -15,8 +16,7 @@ import javax.microedition.khronos.opengles.GL10;
 class MyGLRenderer implements GLSurfaceView.Renderer {
 
     // Define fractals
-    static Mandelbrot mMandelbrot;
-    private static Julia mJulia;
+    static Fractal fractal;
 
     private static AssetManager assetManager;
     private final int fractalType;
@@ -57,41 +57,30 @@ class MyGLRenderer implements GLSurfaceView.Renderer {
                 1, -1
         };
 
-        float[] nill = {0, 0, 0, 0, 0, 0};
-
-        // Initialize all fractals to null
-        mJulia = new Julia(0, nill);
-        mMandelbrot = new Mandelbrot(0, nill);
-
         switch (fractalType) {
             case 0:
-                mMandelbrot = new Mandelbrot(100, full);
+                fractal = new Mandelbrot(100, full);
                 break;
             case 1:
-                mJulia = new Julia(100, full);
+                fractal = new Julia(100, full);
                 break;
             case 2:
-                mMandelbrot = new Mandelbrot(100, topHalf);
-                mJulia = new Julia(350, bottomHalf);
+                // TODO
                 break;
         }
     }
 
     public void onDrawFrame(GL10 unused) {
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
-        mMandelbrot.draw();
-        mJulia.setJuliaPos(mMandelbrot.getPosition());
-        mJulia.draw();
+        fractal.draw();
     }
 
     public void onSurfaceChanged(GL10 unused, int _width, int _height) {
         Log.i("MyGLRenderer", _width + ":" + _height);
         GLES20.glViewport(0, 0, _width, _height);
 
-        // Update fractals
-        mMandelbrot.onResized();
-        mMandelbrot.setViewport(new float[]{_width, _height});
-        mJulia.setViewport(new float[]{_width, _height});
+        fractal.onResized();
+        fractal.setViewport(new float[]{_width, _height});
     }
 
     static int loadShader(int type, String shaderCode){
