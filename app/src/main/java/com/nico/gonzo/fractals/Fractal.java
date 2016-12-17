@@ -6,15 +6,19 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
-public class Fractal {
+import static android.R.attr.height;
+import static android.R.attr.width;
+
+class Fractal {
     private final String TAG = "Fractal";
-    protected final int mProgram;
-    protected FloatBuffer vertexBuffer;
-    protected float[] viewport;
-    protected float iterations;
+    final int mProgram;
+    float[] bounds = {-2f, 2f, -2f, 2f};
+    FloatBuffer vertexBuffer;
+    float[] viewport;
+    float iterations;
 
     // number of coordinates per vertex in this array
-    protected float[] coords;
+    float[] coords;
 
     Fractal(String shader, float iterations, float[] newCoords) {
         // Load the shaders
@@ -75,5 +79,42 @@ public class Fractal {
 
     void setViewport(float[] input) {
         viewport = input;
+    }
+
+    float[] getPosition() {
+        return new float[]{(bounds[3] + bounds[2]) / 2, (bounds[0] + bounds[1]) / 2};
+    }
+
+    void onResized() {
+        // Real number axis adjustment
+        float rangeR = bounds[3] - bounds[2];
+        bounds[3] = (float)((bounds[1] - bounds[0]) * (width / height) / 1.4 + bounds[2]);
+        float newRangeR = bounds[3] - bounds[2];
+        bounds[2] -= (newRangeR - rangeR) / 2;
+        bounds[3] = (float)((bounds[1] - bounds[0]) * (width / height) / 1.4 + bounds[2]);
+    }
+
+    void zoom(float rangeModifier) {
+        // Imaginary number axis adjustment
+        float rangeI = bounds[1] - bounds[0];
+        float newRangeI;
+        newRangeI = rangeI / rangeModifier;
+        float delta = newRangeI - rangeI;
+        bounds[0] -= delta / 2;
+        bounds[1] = bounds[0] + newRangeI;
+        onResized();
+    }
+
+    void pan(float distI, float distR) {
+        float rangeI = bounds[1] - bounds[0];
+        float rangeR = bounds[3] - bounds[2];
+
+        float deltaI = (distR / viewport[1]) * rangeI;
+        float deltaR = (distI / viewport[0]) * rangeR;
+
+        bounds[0] -= deltaI;
+        bounds[1] -= deltaI;
+        bounds[2] += deltaR;
+        bounds[3] += deltaR;
     }
 }

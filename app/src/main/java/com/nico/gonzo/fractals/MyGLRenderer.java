@@ -59,14 +59,20 @@ class MyGLRenderer implements GLSurfaceView.Renderer {
 
         float[] nill = {0, 0, 0, 0, 0, 0};
 
+        // Initialize all fractals to null
+        mJulia = new Julia(0, nill);
+        mMandelbrot = new Mandelbrot(0, nill);
+
         switch (fractalType) {
             case 0:
-                mMandelbrot = new Mandelbrot("mandelbrot", 100, full);
-                mJulia = new Julia("julia", 0, nill);
+                mMandelbrot = new Mandelbrot(100, full);
                 break;
             case 1:
-                mMandelbrot = new Mandelbrot("mandelbrot", 100, topHalf);
-                mJulia = new Julia("julia", 350, bottomHalf);
+                mJulia = new Julia(100, full);
+                break;
+            case 2:
+                mMandelbrot = new Mandelbrot(100, topHalf);
+                mJulia = new Julia(350, bottomHalf);
                 break;
         }
     }
@@ -85,7 +91,7 @@ class MyGLRenderer implements GLSurfaceView.Renderer {
         // Update fractals
         mMandelbrot.onResized();
         mMandelbrot.setViewport(new float[]{_width, _height});
-        mJulia.setViewport(new float[]{_width, _height/2});
+        mJulia.setViewport(new float[]{_width, _height});
     }
 
     static int loadShader(int type, String shaderCode){

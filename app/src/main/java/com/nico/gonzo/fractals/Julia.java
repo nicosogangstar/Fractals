@@ -7,8 +7,8 @@ class Julia extends Fractal {
     private float[] juliaPos = {-0.7f, 0.27015f};
     private int mJuliaPosHandle;
 
-    Julia(String shader, float iterations, float[] coords) {
-        super(shader, iterations, coords);
+    Julia(float iterations, float[] coords) {
+        super("julia", iterations, coords);
     }
 
     @Override

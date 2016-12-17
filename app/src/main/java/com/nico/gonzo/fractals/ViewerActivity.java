@@ -1,6 +1,5 @@
 package com.nico.gonzo.fractals;
 
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;

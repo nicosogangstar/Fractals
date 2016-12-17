@@ -11,13 +11,11 @@ class MyGLSurfaceView extends GLSurfaceView {
     private MyGLRenderer mRenderer;
     private GestureDetectorCompat mGestureDetector = null;
     private ScaleGestureDetector mScaleDetector = null;
-    private int fractalType;
 
     public MyGLSurfaceView(Context context, int fractalType){
         super(context);
         setEGLContextClientVersion(2);
 
-        this.fractalType = fractalType;
         mRenderer = new MyGLRenderer(context, fractalType);
         mGestureDetector = new GestureDetectorCompat(context, new MyGestureListener());
         mScaleDetector = new ScaleGestureDetector(context, new MyScaleListener());
