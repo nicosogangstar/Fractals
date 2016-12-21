@@ -56,7 +56,6 @@ class MyGLRenderer implements GLSurfaceView.Renderer {
     }
 
     public void onSurfaceChanged(GL10 unused, int _width, int _height) {
-        Log.i("MyGLRenderer", _width + ":" + _height);
         GLES20.glViewport(0, 0, _width, _height);
 
         fractal.onResized();

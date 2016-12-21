@@ -29,10 +29,5 @@ void main() {
         gl_FragCoord.y * (bounds.y - bounds.x) / viewportDimensions.y + bounds.x
     );
 
-    if(coloringType == 0) {
-        gl_FragColor = basicColoring(c, mandelbrot(c), maxIterations);
-    }
-    else  if(coloringType == 1) {
-        gl_FragColor = interpolateColoring(c, mandelbrot(c), maxIterations);
-    }
+    gl_FragColor = colorFractal(c, mandelbrot(c), maxIterations, coloringType);
 }

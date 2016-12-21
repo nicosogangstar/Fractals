@@ -34,10 +34,5 @@ void main() {
         gl_FragCoord.y * 4.0 / viewportDimensions.y - 2.0
     );
 
-    if(coloringType == 0) {
-        gl_FragColor = basicColoring(c, julia(c), maxIterations);
-    }
-    else  if(coloringType == 1) {
-        gl_FragColor = interpolateColoring(c, julia(c), maxIterations);
-    }
+    gl_FragColor = colorFractal(c, julia(c), maxIterations, coloringType);
 }
