@@ -39,7 +39,7 @@ vec4 interpolateColoring() {
 }
 
 // Main method
-vec4 colorFractal(vec2 c, float iterations, float maxIterations, int coloringType) {
+vec4 colorFractal(int coloringType, vec2 c, float iterations, float maxIterations) {
     z = c;
     its = iterations;
     mIts = maxIterations;
