@@ -18,13 +18,15 @@ public class ViewerActivity extends AppCompatActivity {
 
     MyGLSurfaceView fractalView;
 
+    private int fractalType, colorType;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_viewer);
 
-        fractalView = new MyGLSurfaceView(this, 0);
+        fractalView = new MyGLSurfaceView(this, 0, 0);
 
         linearLayout = (LinearLayout) findViewById(R.id.fractalView);
         linearLayout.addView(fractalView);
@@ -51,9 +53,10 @@ public class ViewerActivity extends AppCompatActivity {
     public void selectDrawerItem(MenuItem menuItem) {
         switch(menuItem.getItemId()) {
             case R.id.nav_functions:
-                createDialog();
+                fractalDialog();
                 break;
             case R.id.nav_brush:
+                colorDialog();
                 break;
             case R.id.nav_palette:
                 break;
@@ -63,16 +66,33 @@ public class ViewerActivity extends AppCompatActivity {
         drawerLayout.closeDrawers();
     }
 
-    public void createDialog() {
+    public void fractalDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Pick a fractal")
                 .setItems(R.array.fractals, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        linearLayout.removeAllViews();
-                        fractalView = new MyGLSurfaceView(getApplicationContext(), which);
-                        linearLayout.addView(fractalView);
+                        fractalType = which;
+                        updateFractal();
                     }
                 });
         builder.create().show();
+    }
+
+    public void colorDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Pick a coloring algorithm")
+                .setItems(R.array.colortypes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        colorType = which;
+                        updateFractal();
+                    }
+                });
+        builder.create().show();
+    }
+
+    public void updateFractal() {
+        linearLayout.removeAllViews();
+        fractalView = new MyGLSurfaceView(getApplicationContext(), fractalType, colorType);
+        linearLayout.addView(fractalView);
     }
 }

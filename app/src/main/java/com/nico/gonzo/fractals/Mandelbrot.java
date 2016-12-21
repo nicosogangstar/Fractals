@@ -2,17 +2,12 @@ package com.nico.gonzo.fractals;
 
 import android.opengl.GLES20;
 
-import static android.R.attr.height;
-import static android.R.attr.width;
-
 class Mandelbrot extends Fractal {
-
-    private final String TAG = "Mandelbrot";
 
     private int mBoundsHandle;
 
-    Mandelbrot(float iterations, float[] coords) {
-        super("mandelbrot", iterations, coords);
+    Mandelbrot(float iterations, int colorType, float[] coords) {
+        super("mandelbrot", iterations, colorType, coords);
     }
 
     @Override

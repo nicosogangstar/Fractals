@@ -19,11 +19,12 @@ class MyGLRenderer implements GLSurfaceView.Renderer {
     static Fractal fractal;
 
     private static AssetManager assetManager;
-    private final int fractalType;
+    private final int fractalType, colorType;
 
-    MyGLRenderer(Context context, int fractalType) {
+    MyGLRenderer(Context context, int fractalType, int colorType) {
         assetManager = context.getAssets();
         this.fractalType = fractalType;
+        this.colorType = colorType;
     }
 
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
@@ -39,13 +40,12 @@ class MyGLRenderer implements GLSurfaceView.Renderer {
 
         switch (fractalType) {
             case 0:
-                fractal = new Mandelbrot(100, coords);
+                fractal = new Mandelbrot(100, colorType, coords);
                 break;
             case 1:
-                fractal = new Julia(100, coords);
+                fractal = new Julia(100, colorType, coords);
                 break;
             case 2:
-                fractal = new Newton(100, coords);
                 break;
         }
     }
@@ -89,9 +89,7 @@ class MyGLRenderer implements GLSurfaceView.Renderer {
                     mLine = mLine.substring(0, mLine.indexOf("//"));
                 else if(mLine.contains("void main()")) {
                     // Load in coloring functions
-                    String coloring = readShader("coloring.glsl");
-                    Log.d("MyGLRenderer", coloring);
-                    shader += coloring;
+                    shader += readShader("coloring.glsl");
                 }
                 shader += mLine;
             }
