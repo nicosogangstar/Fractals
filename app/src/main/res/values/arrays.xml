@@ -3,6 +3,7 @@
     <string-array name="fractals">
         <item>Mandelbrot</item>
         <item>Julia</item>
+        <item>Newton</item>
     </string-array>
 
     <string-array name="colortypes">

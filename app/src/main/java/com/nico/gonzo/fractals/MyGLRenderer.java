@@ -38,14 +38,16 @@ class MyGLRenderer implements GLSurfaceView.Renderer {
                 1, -1
         };
 
+        int iterations = 100;
         switch (fractalType) {
             case 0:
-                fractal = new Mandelbrot(100, colorType, coords);
+                fractal = new Mandelbrot(iterations, colorType, coords);
                 break;
             case 1:
-                fractal = new Julia(100, colorType, coords);
+                fractal = new Julia(iterations, colorType, coords);
                 break;
             case 2:
+                fractal = new Newton(iterations, colorType, coords);
                 break;
         }
     }

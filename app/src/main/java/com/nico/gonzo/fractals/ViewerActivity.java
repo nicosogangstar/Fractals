@@ -58,8 +58,6 @@ public class ViewerActivity extends AppCompatActivity {
             case R.id.nav_brush:
                 colorDialog();
                 break;
-            case R.id.nav_palette:
-                break;
         }
 
         setTitle(menuItem.getTitle());
