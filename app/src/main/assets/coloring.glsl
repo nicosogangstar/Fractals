@@ -38,12 +38,6 @@ vec4 interpolateColoring() {
     return vec4(hsv2rgb(vec3(interpolate(color1, color2, mod(its, 1.0)), 1.0, 1.0)), 1.0);
 }
 
-vec4 newtonColoring() {
-    float quotient = (its / mIts);
-    float fraction = quotient * 255.0;
-    return vec4(fraction, fraction, fraction, 1.0);
-}
-
 // Main method
 vec4 colorFractal(int coloringType, vec2 c, float iterations, float maxIterations) {
     z = c;
@@ -55,8 +49,5 @@ vec4 colorFractal(int coloringType, vec2 c, float iterations, float maxIteration
     }
     else if(coloringType == 1) {
         return interpolateColoring();
-    }
-    else if(coloringType == 2) {
-        return newtonColoring();
     }
 }

@@ -7,7 +7,7 @@ class Newton extends Fractal {
     private int mBoundsHandle;
 
     Newton(float iterations, int colorType, float[] coords) {
-        super("newton", iterations, 2, coords);
+        super("newton", iterations, colorType, coords);
     }
 
     @Override
