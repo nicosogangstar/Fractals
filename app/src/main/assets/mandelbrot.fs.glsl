@@ -23,8 +23,8 @@ float mandelbrot(vec2 c) {
     vec2 z = c;
     float its = 0.0;
     for(int i = 0; i < int(maxIterations); i++) {
-        float t = real(z, c.y);
-        z.x = imaginary(z, c.x);
+        float t = imaginary(z, c.y);
+        z.x = real(z, c.x);
         z.y = t;
 
         if(z.x * z.x + z.y * z.y > 4.0) {

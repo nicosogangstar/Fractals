@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Fractals</string>
+    <string name="app_name">Smooth Fractals</string>
 
     <string name="option1">Change Fractal</string>
     <string name="option2">Change Coloring</string>
