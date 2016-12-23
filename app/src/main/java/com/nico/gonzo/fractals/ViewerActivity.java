@@ -5,10 +5,12 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.LinearLayout;
 
 public class ViewerActivity extends AppCompatActivity {
@@ -31,11 +33,14 @@ public class ViewerActivity extends AppCompatActivity {
         linearLayout = (LinearLayout) findViewById(R.id.fractalView);
         linearLayout.addView(fractalView);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         setupDrawerContent((NavigationView) findViewById(R.id.nvView));
+
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setTitle(R.string.app_name);
+        toolbar.setNavigationIcon(R.drawable.ic_menu_white_24dp);
+        setSupportActionBar(toolbar);
     }
 
     private void setupDrawerContent(NavigationView navigationView) {
